@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 const OUT = process.env.E2E_OUT || resolve('e2e-out');
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
-const FILE = `file://${resolve('dist/relicario.html')}`;
+const FILE = `file://${resolve('v1/relicario.html')}`;
 const problems = [];
 
 const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: true, args: ['--no-sandbox'] });

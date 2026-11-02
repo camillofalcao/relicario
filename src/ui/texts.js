@@ -66,5 +66,5 @@ export const SPEC_LINES = [
   'Versão em texto: linhas "NNN  dados  CC", dados em Base32 Crockford (alfabeto 0-9 A-Z sem I L O U) de até 20 bytes; ' +
     'CC = 10 bits baixos do CRC-32 de (seção | NNN em 2 bytes | bytes da linha), em 2 caracteres Base32 Crockford. ' +
     'Seção 1 = objeto de conteúdo; seção 2 = quadro da parte-chave.',
-  'Especificação completa e vetores de teste: repositório "relicario" (arquivo ESPECIFICACAO.md).',
+  'Especificação completa e vetores de teste: github.com/camillofalcao/relicario (arquivo ESPECIFICACAO.md).',
 ];

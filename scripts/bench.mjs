@@ -14,7 +14,7 @@ for (const throttle of [1, 6]) {
   const page = await browser.newPage();
   await page.emulateCPUThrottling(throttle);
   const t0 = Date.now();
-  await page.goto(`file://${resolve('dist/relicario.html')}`);
+  await page.goto(`file://${resolve('v1/relicario.html')}`);
   await page.waitForFunction(() => document.getElementById('selftest').textContent.includes('OK'), { timeout: 120000 });
   const appLoad = Date.now() - t0;
   await page.goto(`file://${resolve('e2e-out/bench.html')}`);

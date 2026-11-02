@@ -1,11 +1,13 @@
-// Gera dist/relicario.html: um único arquivo, sem nenhuma dependência externa.
-// Uso: node build.mjs   (variável opcional RELICARIO_URL = endereço impresso nas folhas)
+// Gera v1/index.html e v1/relicario.html (o mesmo arquivo, sem nenhuma dependência
+// externa) e v1/SHA256SUMS. É isso que o GitHub Pages publica em /relicario/v1/.
+// Uso: node build.mjs   (RELICARIO_URL troca o endereço impresso nas folhas, para quem
+// hospeda outra cópia)
 import { build } from 'esbuild';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { localModules } from './scripts/esbuild-local.mjs';
 
-const url = process.env.RELICARIO_URL || '';
+const url = process.env.RELICARIO_URL ?? 'https://camillofalcao.github.io/relicario/v1/';
 const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
 
 const out = await build({
@@ -43,8 +45,9 @@ const html = readFileSync('src/index.html', 'utf8')
   .replace('{{STYLE}}', () => style)
   .replace('{{SCRIPT}}', () => script);
 
-mkdirSync('dist', { recursive: true });
-writeFileSync('dist/relicario.html', html);
+mkdirSync('v1', { recursive: true });
+writeFileSync('v1/index.html', html);
+writeFileSync('v1/relicario.html', html);
 const hash = createHash('sha256').update(html).digest('hex');
-writeFileSync('dist/relicario.html.sha256', `${hash}  relicario.html\n`);
-console.log(`dist/relicario.html  ${(html.length / 1024 / 1024).toFixed(2)} MB  sha256 ${hash}`);
+writeFileSync('v1/SHA256SUMS', `${hash}  index.html\n${hash}  relicario.html\n`);
+console.log(`v1/relicario.html  ${(html.length / 1024 / 1024).toFixed(2)} MB  sha256 ${hash}  ${url || '(sem endereço)'}`);

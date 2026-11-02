@@ -127,22 +127,30 @@ O tamanho cifrado é arredondado em faixas, para não revelar o tamanho exato do
 
 ### Obter o Relicário
 
-Use o arquivo `dist/relicario.html`. Ele é autossuficiente: pode ser copiado para um
-pendrive, aberto direto do disco ou do celular, sem instalar nada.
+- **Online:** https://camillofalcao.github.io/relicario/v1/
+- **Para baixar (pendrive):** https://camillofalcao.github.io/relicario/v1/relicario.html
+  — ou o arquivo [`v1/relicario.html`](v1/relicario.html) deste repositório.
+
+É o mesmo arquivo nos dois casos, autossuficiente: pode ser copiado para um pendrive,
+aberto direto do disco ou do celular, sem instalar nada. **Para criar um Relicário e para
+guardar com as folhas, prefira a cópia baixada e conferida**; o site é uma conveniência.
 
 Para conferir que o arquivo não foi alterado, compare o hash SHA-256 com o publicado em
-`dist/relicario.html.sha256`:
+[`v1/SHA256SUMS`](v1/SHA256SUMS) e no [histórico de hashes](HASHES.md):
 
 ```
 # Linux
-cd dist && sha256sum -c relicario.html.sha256
+sha256sum relicario.html
 
 # macOS
-cd dist && shasum -a 256 -c relicario.html.sha256
+shasum -a 256 relicario.html
 
-# Windows (PowerShell) — compare o resultado com o arquivo .sha256
+# Windows (PowerShell)
 Get-FileHash relicario.html -Algorithm SHA256
 ```
+
+Uma cópia antiga, de outra publicação, é legítima se o hash dela constar no
+[HASHES.md](HASHES.md).
 
 ### Preparar o aparelho
 
@@ -315,7 +323,9 @@ O texto aparece **oculto**, para proteger de quem olha por cima do ombro. Toque 
 - **Coerção de quem sabe tudo.** No modo 2 de 3, coagir 2 guardiões abre o conteúdo.
 - **Cópia falsa do Relicário.** Um `relicario.html` adulterado poderia roubar o segredo.
   Use a cópia conferida pelo hash; desconfie de qualquer versão que peça internet, login ou
-  envio de dados.
+  envio de dados. Uma página falsa também pode **não pedir nada** e enviar os dados em
+  silêncio — por exemplo, se um dia o endereço impresso nas folhas passar para outro dono.
+  Por isso a cópia do pendrive é a fonte principal, e o site, uma conveniência.
 - **Negação plausível.** Não há conteúdo de fachada nem modo "só papel, sem senha".
 
 O modelo de ameaça completo está na seção 1 da
@@ -358,19 +368,35 @@ Não; crie um novo Relicário e destrua as folhas antigas.
 ```
 npm install
 npm test          # testes do núcleo (Node)
-npm run build     # gera dist/relicario.html e o hash SHA-256
+npm run build     # gera v1/index.html, v1/relicario.html e v1/SHA256SUMS
 npm run e2e       # build + teste no Chrome: cria, imprime em PDF, fotografa, lê e abre
 npm run bench     # medições de desempenho (CPU normal e 6x mais lenta)
 ```
 
 O e2e usa o Chrome em `/usr/bin/google-chrome` e grava as saídas em `e2e-out/`.
 
-`RELICARIO_URL=https://<organização>.github.io/relicario/v1/ npm run build` imprime o
-endereço do site nas folhas. Sem essa variável, as folhas indicam apenas o arquivo
-`relicario.html`.
+O build embute nas folhas o endereço `https://camillofalcao.github.io/relicario/v1/`.
+Quem hospeda outra cópia troca com `RELICARIO_URL=<endereço> npm run build`
+(`RELICARIO_URL=` vazio gera folhas sem endereço). O build é reprodutível: rodá-lo a
+partir de um commit publicado chega ao mesmo hash do [HASHES.md](HASHES.md).
+
+### Publicação e versões
+
+O GitHub Pages publica a branch `main` a partir da raiz; o que está em `v1/` é exatamente
+o que vai ao ar (não há build no servidor).
+
+- **Correção ou melhoria que continua lendo todo papel v1** (garantido pelos vetores do
+  autoteste): `npm run e2e`, commit de `v1/`, nova linha no [HASHES.md](HASHES.md), versão
+  em `package.json` e tag `v1.x.y`. Substitui o conteúdo de `v1/`.
+- **Mudança no formato:** nova pasta `v2/`. **`v1/` nunca sai do ar**, para que papéis
+  antigos continuem abrindo.
+
+A conta `camillofalcao` **nunca deve ser renomeada nem apagada**: o endereço impresso nas
+folhas depende dela (veja o modelo de ameaça na especificação).
 
 ### Estrutura
 
+- `v1/` — o Relicário publicado (gerado pelo build; não editar à mão).
 - `src/core/` — formato, criptografia, Shamir, Reed-Solomon, codificações, política de
   senhas, coletor de leituras e autoteste. Sem dependência de DOM.
 - `src/ui/` — interface (criação, abertura, folhas impressas, câmera).
@@ -385,3 +411,4 @@ endereço do site nas folhas. Sem essa variável, as folhas indicam apenas o arq
 
 - [ESPECIFICACAO.md](ESPECIFICACAO.md) — formato v1, primitivas, política de
   senhas, layout das folhas, modelo de ameaça e decisões de projeto.
+- [HASHES.md](HASHES.md) — hash SHA-256 de cada publicação.

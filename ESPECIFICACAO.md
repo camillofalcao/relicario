@@ -15,7 +15,7 @@ Prioridades: 1) segurança · 2) resiliência/durabilidade · 3) facilidade de u
 | Roubo de 1 página no 2-de-3 | Shamir: uma parte isolada não revela nada (teoria da informação). | — |
 | Coerção | 3 guardiões, cada um com 1 página e 1 senha **distinta**; ninguém abre sozinho. | Coagir 2 guardiões abre. Criptografia não resolve coerção de quem sabe tudo. |
 | Computador comprometido | Criação em aparelho limpo/offline com cópia local verificada; CSP bloqueia rede; texto decifrado oculto até toque. | Se o aparelho onde se digita/vê o texto estiver comprometido, o texto vaza. |
-| Site hospedado adulterado | Sem domínio próprio (nada expira para ser comprado por terceiros); GitHub Pages de uma **organização** com mais de um administrador; versões imutáveis por caminho (`/v1/`); repositório público; hash publicado; cópia em pendrive com cada guardião; alerta impresso contra pedidos online. | Leigos não verificam hash; mitigação é a cópia local. Se a organização for apagada, o nome pode ser registrado por outro — nunca renomear/apagar; incluir no planejamento sucessório. |
+| Site hospedado adulterado | Sem domínio próprio (nada expira para ser comprado por terceiros); GitHub Pages da conta pessoal `camillofalcao`, com 2FA e sucessor indicado no GitHub; um caminho por versão de formato (`/v1/`), que nunca sai do ar; repositório público; build reprodutível e hash de cada publicação registrado; cópia em pendrive com cada guardião; alerta impresso contra pedidos online. | Leigos não verificam hash; mitigação é a cópia local. O endereço pertence a quem for dono do nome de usuário: se a conta for **renomeada** (o nome antigo fica livre na hora e o Pages não redireciona) ou **apagada**, outro pode registrar o nome e publicar em `/v1/` uma cópia idêntica que envia em silêncio o que for lido e digitado — o alerta impresso não cobre isso. Conta pessoal é ponto único de falha (sem outros administradores). Regras: nunca renomear nem apagar a conta; sucessor instruído a não apagá-la; planejamento sucessório diz "use o pendrive, não o site". |
 | Perda/dano do papel | QRs de paridade (Reed-Solomon entre QRs), conteúdo replicado nas 3 páginas, fallback em texto. | — |
 | Ferramenta extinta | Especificação impressa no verso de cada página; vetores de teste publicados. | — |
 
@@ -274,7 +274,7 @@ Verso: esta especificação resumida.
 - Rodapé: "Guarde a senha **longe** desta página."
 - Alerta: "O Relicário funciona **sem internet**. Se pedir login, e-mail, pagamento ou
   para enviar algo, **pare** — não é o Relicário verdadeiro."
-- URL impressa: `https://<organização>.github.io/relicario/v1/` (sempre sem acento).
+- URL impressa: `https://camillofalcao.github.io/relicario/v1/` (sempre sem acento).
 
 Estimativas de páginas por cópia:
 
@@ -316,10 +316,16 @@ formato binário proprietário).
 - Campos: `spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off"`.
 - **Autoteste ao carregar:** decifrar vetores de teste embutidos; se falhar, a ferramenta
   se recusa a operar (pega navegador com implementação defeituosa).
-- Hospedagem: **sem domínio próprio**. GitHub Pages de uma organização dedicada
-  (≥ 2 administradores de confiança), repositório `relicario`, caminhos imutáveis por
-  versão (`/v1/`), hash SHA-256 de cada versão publicado no repositório. A organização
-  nunca é renomeada nem apagada.
+- Hospedagem: **sem domínio próprio**. GitHub Pages do repositório público
+  `camillofalcao/relicario` (conta pessoal; decisão de 02/11/2026, no lugar de uma
+  organização), branch `main`, raiz. O build grava em `v1/` (`index.html` e
+  `relicario.html`, o mesmo arquivo, e `SHA256SUMS`); o que está no repositório é o que vai
+  ao ar, sem build no servidor. A conta nunca é renomeada nem apagada.
+- **Versões (flexível).** `/v1/` = o leitor/gerador do **formato v1**. Pode ser substituído
+  por correções e melhorias, desde que continue lendo todo papel v1 (vetores do autoteste e
+  e2e); cada publicação recebe tag `v1.x.y` e uma linha em `HASHES.md` (versão, data,
+  SHA-256, commit), para que cópias antigas possam ser conferidas. Mudança de formato vai
+  para `/v2/`, e `/v1/` nunca sai do ar.
 - Fonte principal para restauração: **cópia do HTML em pendrive com cada guardião**;
   o site é conveniência.
 - Grafia: "Relicário" na interface e no papel; `relicario` (sem acento) em URLs, nomes
@@ -347,6 +353,6 @@ Bibliotecas (versões fixas em `package.json`, embutidas no HTML pelo build):
 3. ~~Vetores de teste~~ — `src/core/vectors.js` (gerados por `scripts/gen-vectors.mjs`;
    congelados para o formato v1) e conferidos pelo autoteste a cada carregamento.
 4. Texto das instruções impressas, testado com uma pessoa leiga real.
-5. Criar a organização no GitHub e definir o nome dela (vai impresso na URL; passar em
-   `RELICARIO_URL` no build).
+5. ~~Organização no GitHub~~ — decidido: conta pessoal, `https://camillofalcao.github.io/relicario/v1/`
+   (padrão do build). Falta: confirmar 2FA e indicar o sucessor da conta no GitHub.
 6. Testar câmera ao vivo em Android e iPhone reais (os testes automáticos usam fotos).

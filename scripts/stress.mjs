@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
 const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', headless: true, args: ['--no-sandbox'] });
 const page = await browser.newPage();
-await page.goto(`file://${resolve('dist/relicario.html')}`);
+await page.goto(`file://${resolve('v1/relicario.html')}`);
 await page.waitForFunction(() => document.getElementById('selftest').textContent.includes('OK'), { timeout: 60000 });
 await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent.includes('Abrir um')).click());
 for (const scale of [0.5, 0.4, 0.33, 0.27]) {
