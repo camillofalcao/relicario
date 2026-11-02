@@ -1,0 +1,12 @@
+node_modules/
+e2e-out/
+
+# Tudo que começa com ponto (pastas de IA, configs locais)
+.*
+!.gitignore
+
+# Arquivos de IA sem ponto
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+memory-bank/
