@@ -157,7 +157,9 @@ export function restoreView({ test = null, onExit }) {
     const modeText = s.mode === MODE_SIMPLE ? 'senha única' : s.mode ? '2 de 3 partes' : 'modo ainda desconhecido';
     const content = s.contentReady
       ? h('li', { class: 'ok' }, 'Conteúdo: completo ✓')
-      : h('li', null, `Conteúdo: ${s.blocks.size} de ${s.k} códigos necessários lidos (há ${s.n} na folha; quaisquer ${s.k} servem).`);
+      : h('li', null, s.k === 1
+        ? `Conteúdo: ${s.blocks.size} de 1 código necessário lido (há ${s.n} na folha; qualquer um serve).`
+        : `Conteúdo: ${s.blocks.size} de ${s.k} códigos necessários lidos (há ${s.n} na folha; quaisquer ${s.k} servem).`);
     const partsText = !s.parts.length
       ? 'Parte-chave: nenhuma lida ainda.'
       : s.mode === MODE_SIMPLE

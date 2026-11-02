@@ -10,3 +10,4 @@ Como calcular o hash de uma cópia: veja a seção "Antes de começar" do [READM
 | Versão | Data | Formato | SHA-256 de `relicario.html` (= `index.html`) | Tag |
 |---|---|---|---|---|
 | 1.0.0 | 2026-11-02 | v1 | `50bab86b1e20c9483636acf4b58c1b3e94ff06d9f78d3bdf6a9ac4077441ca63` | `v1.0.0` |
+| 1.0.1 | 2026-11-02 | v1 | `734c7fd76ce21260778f363e62c77f53086ec8103aefa47a8a01dbc1921bdf22` | `v1.0.1` |

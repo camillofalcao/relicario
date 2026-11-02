@@ -234,7 +234,7 @@ export function createView({ onExit }) {
     const k = parseFrame(c.blockFrames[0]).k;
     frame(3, 'Imprimir e salvar',
       h('div', { class: 'card' },
-        h('p', null, h('strong', null, `Conjunto ${label}`), ` · ${c.mode === MODE_SIMPLE ? 'senha única' : '2 de 3 guardiões'} · ${c.blockFrames.length} códigos de conteúdo (bastam ${k})`),
+        h('p', null, h('strong', null, `Conjunto ${label}`), ` · ${c.mode === MODE_SIMPLE ? 'senha única' : '2 de 3 guardiões'} · ${c.blockFrames.length} códigos de conteúdo (${k === 1 ? 'basta 1' : `bastam ${k}`})`),
         h('ul', { class: 'hint' },
           h('li', null, 'Prefira impressora a laser e papel de boa qualidade; guarde em plástico, longe de umidade e calor.'),
           c.mode === MODE_SIMPLE

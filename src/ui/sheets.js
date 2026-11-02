@@ -60,7 +60,7 @@ export function buildPackets(created, { names = [], includeText, includeSpec = t
             h('div', { class: 'sh-instr' },
               h('p', null, instr.intro),
               h('ol', null, instr.steps.map((s) => h('li', null, s))),
-              h('p', { class: 'sh-small' }, `Conteúdo: ${blockTexts.length} códigos; bastam ${k} quaisquer.`),
+              h('p', { class: 'sh-small' }, `Conteúdo: ${blockTexts.length} códigos; ${k === 1 ? 'basta 1 qualquer' : `bastam ${k} quaisquer`}.`),
             ),
           ),
         );
